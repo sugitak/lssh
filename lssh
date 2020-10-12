@@ -1,0 +1,7 @@
+#!/bin/bash
+
+instanceId=$(lsec2 $@ | peco | awk '{print $1}')
+if [ $? -eq 0 -a "${instanceId}" != "" ]
+then
+    ssh -o "ProxyCommand aws ssm start-session --target %h --document-name AWS-StartSSHSession --parameters 'portNumber=%p'" ${instanceId}
+fi
